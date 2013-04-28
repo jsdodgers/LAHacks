@@ -7,7 +7,7 @@
 
   "permissions": ["contextMenus"],
   "background": {
-    "scripts": ["injectOverlay.js"]
+    "scripts": ["rightClick.js"]
   },
    "content_scripts": [
     {
