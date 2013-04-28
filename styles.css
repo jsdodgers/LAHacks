@@ -1,5 +1,5 @@
 .overlayImage {
-	position:absolute;
+	position:fixed;
 	left:15%;
 	top:15%;
 	width:70%;
@@ -8,7 +8,7 @@
 }
 
 .bgImage {
-	position:absolute;
+	position:fixed;
 	left:0%;
 	top:0%;
 	width:100%;
