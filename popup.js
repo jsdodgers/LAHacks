@@ -115,13 +115,36 @@ function buttonClick() {
 	var text = document.getElementById('remindField').value;
 	number++;
 	$('body').find("#div1").prepend("<div id=\"div-"+number+"\"><p>" + text + "</p></div><hr id=\"hr"+number+"\">");
-	$('body').find("#div1").find("#div-"+number).append("<img id=\"closeId" + number + "\" class=closeImage src=\"close.png\"></img>");
+	$('body').find("#div1").find("#div-"+number).append("<img id=\"closeId" + number + "\" class=closeImage src=\"close.png\" align=\"right\"></img>");
 		
 
 	saveText(text);
 	document.getElementById('remindField').value = "";
 }
 
+function timeBetweenChanged (e) {
+	chrome.storage.sync.set({"timeBetween":e.value},function(){});
+}
+
+function durationChanged (e) {
+	chrome.storage.sync.set({"duration":e.value},function(){});
+}
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
 	document.querySelector('button').addEventListener('click',buttonClick);
+	var duration = document.querySelector('#duration');
+//	var duration = $('body').find('#duration');
+//	duration.addEventListener('change',durationChanged(this));
+	chrome.storage.sync.get("duration",function(items) {
+//		duration.value = items.duration;
+		console.log(items.duration);
+	});
+//	var timeBetween = $('body').find('#timeBetween');
+	var timeBetween = document.querySelector('#timeBetween');
+	timeBetween.addEventListener('change',timeBetweenChanged(this));
+	chrome.storage.sync.get("timeBetween",function(items) {
+		timeBetween.value = items.timeBetween;
+	});
 });
