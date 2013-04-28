@@ -5,9 +5,10 @@
   "description": "Application that intrusively helps you remember important facts",
   "version": "1.0",
 
-  "permissions": [
-    "https://secure.flickr.com/"
-  ],
+  "permissions": ["contextMenus"],
+  "background": {
+    "scripts": ["injectOverlay.js"]
+  },
    "content_scripts": [
     {
       "matches": ["http://www.reddit.com/*"],
