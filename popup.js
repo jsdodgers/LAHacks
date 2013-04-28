@@ -1,91 +1,81 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+chrome.storage.sync.get(["text","image"],function(items) {
+	console.log(items.image.image);
+	var texts = items.text.text;
+	var images = items.image.image;
+	for (var i = 0; i < images.length; i++) {
+		$('body').append("<img id=\"id" + i + "\" class=myImage src=\"" + images[i] + "\"></img>");
+		
+	document.getElementById('id'+i).addEventListener('click', function (e) {
+		console.log(e);
+		var number = e.srcElement.id.substring(2); //get the number of the picture
+		console.log("number:" + number);
+		var img = document.createElement('img');
+		$('img').remove('#id' + number);
+		chrome.storage.sync.get("image",function(items) {
+			var arr = items.image.image;
+			console.log("Before:" + number + arr);
+			if(number != -1) {
+				arr.splice(number, 1);
+			}
+			console.log("After:" + arr);
+			chrome.storage.sync.set({"image":{image:arr}},function() {});
+		});
+		img.setAttribute('src', 'http://blog.stackoverflow.com/wp-content/uploads/stackoverflow-logo-300.png');
+		e.target.appendChild(img);
+	});
+  
+	}
+});
 
-/**
- * Global variable containing the query we'd like to pass to Flickr. In this
- * case, kittens!
- *
- * @type {string}
- */
-var QUERY = 'auroras';
 
-var open = false;
 
-var kittenGenerator = {
-  /**
-   * Flickr URL that will give us lots and lots of whatever we're looking for.
-   *
-   * See http://www.flickr.com/services/api/flickr.photos.search.html for
-   * details about the construction of this URL.
-   *
-   * @type {string}
-   * @private
-   */
-  searchOnFlickr_: 'https://secure.flickr.com/services/rest/?' +
-      'method=flickr.photos.search&' +
-      'api_key=90485e931f687a9b9c2a66bf58a3861a&' +
-      'text=' + encodeURIComponent(QUERY) + '&' +
-      'safe_search=1&' +
-      'content_type=1&' +
-      'sort=interestingness-desc&' +
-      'per_page=20',
 
-  /**
-   * Sends an XHR GET request to grab photos of lots and lots of kittens. The
-   * XHR's 'onload' event is hooks up to the 'showPhotos_' method.
-   *
-   * @public
-   */
-  requestKittens: function() {
-    if (!open) {
-      var req = new XMLHttpRequest();
-      req.open("GET", this.searchOnFlickr_, true);
-      req.onload = this.showPhotos_.bind(this);
-      req.send(null);
-      open = true;
-    }
-    else {
-        open = false;
-    }
-  },
+function saveText(text) {
+	alert("YES");
+	var theValue = text;
+	alert("Yes");
+	if (!theValue) return;
 
-  /**
-   * Handle the 'onload' event of our kitten XHR request, generated in
-   * 'requestKittens', by generating 'img' elements, and stuffing them into
-   * the document for display.
-   *
-   * @param {ProgressEvent} e The XHR ProgressEvent.
-   * @private
-   */
-  showPhotos_: function (e) {
-    var kittens = e.target.responseXML.querySelectorAll('photo');
-    for (var i = 0; i < kittens.length; i++) {
-      var img = document.createElement('img');
-      img.src = this.constructKittenURL_(kittens[i]);
-      img.setAttribute('alt', kittens[i].getAttribute('title'));
-      document.body.appendChild(img);
-    }
-  },
+	chrome.storage.sync.get("text",function(items) {
+		if (Object.keys(items).length==0) {
+			chrome.storage.sync.set({"text":{text:[theValue]}},function() {});
+		}
+		else {
+			var arr = items.text.text;
+			arr.push(theValue);
+			chrome.storage.sync.set({"text":{text:arr}},function() {});
+			console.log(arr);
+		}
+	});
 
-  /**
-   * Given a photo, construct a URL using the method outlined at
-   * http://www.flickr.com/services/api/misc.urlKittenl
-   *
-   * @param {DOMElement} A kitten.
-   * @return {string} The kitten's URL.
-   * @private
-   */
-  constructKittenURL_: function (photo) {
-    return "http://farm" + photo.getAttribute("farm") +
-        ".static.flickr.com/" + photo.getAttribute("server") +
-        "/" + photo.getAttribute("id") +
-        "_" + photo.getAttribute("secret") +
-        "_s.jpg";
-  }
-};
 
-// Run our kitten generation script as soon as the document's DOM is ready.
-document.addEventListener('DOMContentLoaded', function () {
-  kittenGenerator.requestKittens();
+}
+
+function saveText(text) {
+	var theValue = text;
+	if (!theValue) return;
+
+	chrome.storage.sync.get("text",function(items) {
+		if (Object.keys(items).length==0) {
+			chrome.storage.sync.set({"text":{text:[theValue]}},function() {});
+		}
+		else {
+			var arr = items.text.text;
+			arr.push(theValue);
+			chrome.storage.sync.set({"text":{text:arr}},function() {});
+			console.log(arr);
+		}
+	});
+}
+
+
+function buttonClick() {
+	var test = document.getElementById('remindField').value;
+	console.log("test:" + test);
+	saveText(document.getElementById('remindField').value);
+	document.getElementById('remindField').value = "";
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+	document.querySelector('button').addEventListener('click',buttonClick);
 });
