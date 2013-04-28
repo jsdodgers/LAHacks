@@ -7,13 +7,13 @@
 
   "permissions": ["contextMenus"],
   "background": {
-    "scripts": ["rightClick.js"]
+    "scripts": ["rightClick.js" ]
   },
    "content_scripts": [
     {
-      "matches": ["http://www.reddit.com/*"],
+      "matches": ["http://*/*","https://*/*" ],
       "css": ["styles.css"],
-      "js": ["jquery-1.9.1.min.js", "injectOverlay.js"]
+      "js": ["jquery-1.9.1.min.js", "injectOverlay.js" ]
     }
   ],
   "browser_action": {
