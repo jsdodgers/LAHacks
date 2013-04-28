@@ -1,12 +1,19 @@
 {
   "manifest_version": 2,
 
-  "name": "One-click Kittens",
-  "description": "This extension demonstrates a browser action with kittens.",
+  "name": "Help me remember",
+  "description": "Application that intrusively helps you remember important facts",
   "version": "1.0",
 
   "permissions": [
     "https://secure.flickr.com/"
+  ],
+   "content_scripts": [
+    {
+      "matches": ["http://www.reddit.com/*"],
+      "css": ["styles.css"],
+      "js": ["jquery-1.9.1.min.js", "injectOverlay.js"]
+    }
   ],
   "browser_action": {
     "default_icon": "icon.png",
