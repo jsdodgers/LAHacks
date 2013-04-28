@@ -14,7 +14,7 @@ chrome.storage.sync.get(["text","image"],function(items) {
 	number = texts.length;
 	for (var i = texts.length-1; i>=0; i--) {
 		$('body').find("#div1").append("<div id=\"div-"+i+"\"><p>" + texts[i] + "</p></div><hr id=\"hr"+i+"\">");
-		$('body').find("#div1").find("#div-"+i).find('p').append("<img id=\"closeId" + i + "\" class=closeImage src=\"close.png\" align=\"right\" verticalAlign=\"center\"></img>");
+		$('body').find("#div1").find("#div-"+i).find('p').append("<img id=\"closeId" + i + "\" class=closeImage src=\"close.png\" align=\"right\"></img>");
 		document.getElementById('closeId' + i).addEventListener('click', function (e) {
 			console.log(e);
 			var number = e.srcElement.id.substring(7);
