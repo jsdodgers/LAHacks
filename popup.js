@@ -123,11 +123,15 @@ function buttonClick() {
 }
 
 function timeBetweenChanged (e) {
-	chrome.storage.sync.set({"timeBetween":e.value},function(){});
+	console.log(e);
+	console.log(e.srcElement.value);
+	chrome.storage.sync.set({"timeBetween":e.srcElement.value},function(){});
 }
 
 function durationChanged (e) {
-	chrome.storage.sync.set({"duration":e.value},function(){});
+	console.log(e);
+	console.log(e.srcElement.value);
+	chrome.storage.sync.set({"duration":e.srcElement.value},function(){});
 }
 
 
@@ -135,15 +139,13 @@ function durationChanged (e) {
 document.addEventListener('DOMContentLoaded', function() {
 	document.querySelector('button').addEventListener('click',buttonClick);
 	var duration = document.querySelector('#duration');
-//	var duration = $('body').find('#duration');
-//	duration.addEventListener('change',durationChanged(this));
+	duration.addEventListener('keyup',durationChanged);
 	chrome.storage.sync.get("duration",function(items) {
-//		duration.value = items.duration;
+		duration.value = items.duration;
 		console.log(items.duration);
 	});
-//	var timeBetween = $('body').find('#timeBetween');
 	var timeBetween = document.querySelector('#timeBetween');
-	timeBetween.addEventListener('change',timeBetweenChanged(this));
+	timeBetween.addEventListener('keyup',timeBetweenChanged);
 	chrome.storage.sync.get("timeBetween",function(items) {
 		timeBetween.value = items.timeBetween;
 	});
