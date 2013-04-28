@@ -1,4 +1,4 @@
-var int=self.setInterval(function(){clock()},50000000);
+var int=self.setInterval(function(){clock()},5000);
 function clock()
  {
 	 chrome.tabs.getAllInWindow(null, function(tabs){
