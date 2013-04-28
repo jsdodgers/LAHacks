@@ -5,15 +5,15 @@
   "description": "Application that intrusively helps you remember important facts",
   "version": "1.0",
 
-  "permissions": ["contextMenus"],
+  "permissions": ["contextMenus","tabs"],
   "background": {
-    "scripts": ["rightClick.js"]
+    "scripts": ["rightClick.js","timer.js"]
   },
    "content_scripts": [
     {
       "matches": ["http://www.reddit.com/*"],
       "css": ["styles.css"],
-      "js": ["jquery-1.9.1.min.js", "injectOverlay.js"]
+      "js": ["jquery-1.9.1.min.js", "injectOverlay.js","redditOverlay.js"]
     }
   ],
   "browser_action": {
